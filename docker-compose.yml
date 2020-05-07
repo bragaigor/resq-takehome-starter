@@ -1,0 +1,31 @@
+version: "3.7"
+services:
+  backend:
+    build:
+      context: .
+      target: backend
+    volumes:
+      - ./:/code/
+    ports:
+      - "127.0.0.1:8000:8000"
+      - 4444:4444
+    environment:
+      DATABASE_USER: resq
+      DATABASE_NAME: resq
+      DATABASE_HOST: postgres
+    stdin_open: true
+    tty: true
+
+  frontend:
+    build:
+      context: .
+      target: frontend
+    volumes:
+      - ./frontend/:/code/
+    ports:
+      - "127.0.0.1:3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  resq-pg:
