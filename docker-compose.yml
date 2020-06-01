@@ -1,11 +1,20 @@
 version: "3.7"
 services:
+  postgres:
+      image: postgres:9.6.11
+      command: postgres -c log_statement=all
+      volumes:
+          - postgres-data:/var/lib/postgresql/data
+      environment:
+          POSTGRES_USER: resq
+          POSTGRES_DB: resq
+      ports:
+          - "5432:5432"
   backend:
     build:
-      context: .
-      target: backend
+      context: backend/
     volumes:
-      - ./:/code/
+      - ./backend:/code/backend/
     ports:
       - "127.0.0.1:8000:8000"
       - 4444:4444
@@ -18,14 +27,13 @@ services:
 
   frontend:
     build:
-      context: .
-      target: frontend
+      context: frontend/
     volumes:
-      - ./frontend/:/code/
+      - ./frontend/:/code/frontend/
     ports:
       - "127.0.0.1:3000:3000"
     depends_on:
       - backend
 
 volumes:
-  resq-pg:
+  postgres-data:
