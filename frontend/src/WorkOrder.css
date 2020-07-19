@@ -1,0 +1,20 @@
+.card {
+    box-shadow: 5px 5px 4px 0px rgba(148, 148, 148, 0.5);
+    border: 1px solid black;
+    min-height: 160px;
+    margin: 10px;
+    position: relative;
+    display: inline-block;
+}
+
+.column {
+    float: left;
+    width: 31%;
+    height: 500;
+  }
+
+  @media screen and (max-width: 600px) {
+    .column {
+      width: 100%;
+    }
+  }
