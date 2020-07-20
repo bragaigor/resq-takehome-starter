@@ -5,6 +5,7 @@
     margin: 10px;
     position: relative;
     display: inline-block;
+    cursor: pointer;
 }
 
 .column {

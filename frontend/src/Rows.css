@@ -1,0 +1,16 @@
+.row {
+    right: 0;
+    left: 0;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 10px;
+    width: 75%;
+    border: 3px solid black;
+    display: inline-block;
+  }
+
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }

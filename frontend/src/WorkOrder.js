@@ -12,6 +12,12 @@ class WorkOrder extends React.Component {
         // };
     }
 
+    handleClick = () => {
+        const data = "This is a string";
+        console.log("About to call showEditModal with " + data);
+        this.props.onTheClick(this.props.info);
+    }
+
     render() {
         console.log(this.props);
         if (!this.props.info.description) {
@@ -19,7 +25,7 @@ class WorkOrder extends React.Component {
         }
 
         return (
-            <div className="card column">
+            <div className="card column" onClick={this.handleClick}>
                 <p>{this.props.info.facility}</p>
                 <p>{this.props.info.description}</p>
             </div>

@@ -1,0 +1,56 @@
+body {
+    font-family: sans-serif;
+  }
+  
+  input {
+    border: 1px solid #999;
+    padding: 0.5rem;
+    width: 300px;
+  }
+  
+  .no-suggestions {
+    color: #999;
+    padding: 0.5rem;
+  }
+  
+  .suggestions {
+    border: 1px solid #999;
+    border-top-width: 0;
+    list-style: none;
+    margin-top: 0;
+    max-height: 143px;
+    overflow-y: auto;
+    padding-left: 0;
+    width: calc(300px + 1rem);
+    /* align-items: center;
+    justify-content: center; */
+    position: absolute;
+    /* margin: 0 auto; */
+    left: 50%;
+    margin-left: -150px;
+    right: 50%;
+    z-index: 9999;
+    background-color: #f3f3f3;
+    opacity: 100;
+  }
+  
+  .suggestions li {
+    padding: 0.5rem;
+  }
+  
+  .suggestion-active,
+  .suggestions li:hover {
+    background-color: DodgerBlue;
+    color: #f3f3f3;
+    cursor: pointer;
+    font-weight: 700;
+  }
+  
+  .suggestions li:not(:last-of-type) {
+    border-bottom: 1px solid #999;
+  }
+
+  .autocomplete {
+      min-width: 60px;
+      max-width: 200px;
+  }

@@ -33,7 +33,7 @@ const inventoryList = [
         title: "Coca Soda",
         description: "I'm a soda machine with cola",
         facility: "London",
-        state: "CANCELLED"
+        state: "CANCELED"
     },
     {
         id: 6,
