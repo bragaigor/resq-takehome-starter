@@ -5,6 +5,20 @@ Depending on the take home you have been given you may need only one or both.
 
 The scaffolding has been created docker and docker-compose
 
+## Must run frontend and backend separately 
+##### In one terminal
+```
+cd frontend
+npm start
+```
+##### In another terminal run the backend
+```
+cd backend
+python3 manage.py runserver
+```
+
+#### Frontend and backend available at URLs below
+
 ## APIs
 
 ### GET :: Request work order by facility name:
@@ -44,7 +58,6 @@ $ docker-compose up
 ```
 
 The backend Django service will be accessible from localhost:8000
-
 The frontend react dev server will be accessible from localhost:3000
 
 ## Stopping Project
