@@ -35,13 +35,7 @@ class App extends React.Component {
 	};
 
 	componentDidMount() {
-		const url = 'http://127.0.0.1:8000/facility';
-		axios.get(url).then(response => response.data)
-			.then((data) => {
-				this.setState({ staticListOfWorkers: data.data })
-				console.log(this.state.staticListOfWorkers);
-				this.updateListOfWorkers("");
-			})
+		this.updateListOfWorkers("");
 	}
 
 	showModal = () => {
@@ -69,6 +63,7 @@ class App extends React.Component {
 
 		console.log("Inside insertWorkOrder and newWorkOrder " + newWorkOrder);
 		newWorkOrder["state"] = "OPEN";
+		axios.post('http://127.0.0.1:8000/newWork', newWorkOrder);
 		newWorkOrder.id = this.state.nextId;
 		let currentList = this.state.staticListOfWorkers;
 		currentList.push(newWorkOrder);
@@ -91,7 +86,6 @@ class App extends React.Component {
 		console.log("Inside editWorkOrder and existingWorkOrder " + existingWorkOrder);
 		const workOrderID = existingWorkOrder.id;
 		let currentList = this.state.staticListOfWorkers;
-		// currentList.push(existingWorkOrder);
 
 		for (let i = 0; i < currentList.length; i++) {
 			if (workOrderID == currentList[i].id) {
@@ -115,58 +109,66 @@ class App extends React.Component {
 	}
 
 	updateListOfWorkers = (workSelected) => {
-		let currentList = this.state.staticListOfWorkers;
 
-		console.log("Word 11 selected was: " + workSelected);
-		// console.log("TITLE ::::: " + currentList[0]["title"])
+		const url = 'http://127.0.0.1:8000/facility/' + encodeURIComponent(workSelected);
+		axios.get(url).then(response => response.data)
+			.then((data) => {
+				this.setState({ staticListOfWorkers: data.data })
+				console.log(this.state.staticListOfWorkers);
+			})
+			.then(() => {
+				let currentList = this.state.staticListOfWorkers;
+				console.log("Word 11 selected was: " + workSelected);
+				// console.log("TITLE ::::: " + currentList[0]["title"])
 
-		if (!(workSelected instanceof String) || workSelected.length == 0) {
-			workSelected = "";
-		}
-		console.log("Word selected was: " + workSelected);
-		let listOfRows = [];
-		let currentRow = [];
-		var count = 0;
-		var nextID = this.state.nextId;
-		for (let i = 0; i < currentList.length; i++) {
-			const item = currentList[i];
-			if (item.id > nextID) {
-				nextID = item.id;
-			}
-			const title = item.title;
-			const facility = item.facility;
-			if (title.indexOf(workSelected) != -1 || facility.indexOf(workSelected) != -1) {
-				const aDict = {};
-				aDict.facility = facility;
-				aDict.id = item.id;
-				aDict.title = item.title;
-				aDict.description = item.description;
-				aDict.facility = item.facility;
-				aDict.state = item.state;
-				aDict.selectOptions = this.state.state[item.state];
-				const workOrder = <WorkOrder key={item.id} info={aDict} onTheClick={this.showEditModal}/>;
-				currentRow.push(workOrder);
-				if (i != 0 && (count % 3 == 0 || i == (currentList.length - 1))) {
-					listOfRows.push(new Array(currentRow));
-					currentRow = [];
+				if (!(workSelected instanceof String) || workSelected.length == 0) {
+					workSelected = "";
 				}
-				count++;
-			}
-		}
-		if (currentRow.length != 0) {
-			listOfRows.push(new Array(currentRow));
-		}
+				console.log("Word selected was: " + workSelected);
+				let listOfRows = [];
+				let currentRow = [];
+				var count = 0;
+				var nextID = this.state.nextId;
+				for (let i = 0; i < currentList.length; i++) {
+					const item = currentList[i];
+					if (item.id > nextID) {
+						nextID = item.id;
+					}
+					const title = item.title;
+					const facility = item.facility;
+					if (title.indexOf(workSelected) != -1 || facility.indexOf(workSelected) != -1) {
+						const aDict = {};
+						aDict.facility = facility;
+						aDict.id = item.id;
+						aDict.title = item.title;
+						aDict.description = item.description;
+						aDict.facility = item.facility;
+						aDict.state = item.state;
+						aDict.selectOptions = this.state.state[item.state];
+						const workOrder = <WorkOrder key={item.id} info={aDict} onTheClick={this.showEditModal}/>;
+						currentRow.push(workOrder);
+						if (i != 0 && (count % 3 == 0 || i == (currentList.length - 1))) {
+							listOfRows.push(new Array(currentRow));
+							currentRow = [];
+						}
+						count++;
+					}
+				}
+				if (currentRow.length != 0) {
+					listOfRows.push(new Array(currentRow));
+				}
 
-		nextID++;
+				nextID++;
 
-		this.setState(prevState =>
-			{
-				return {
-					listOfWorkers: listOfRows,
-					nextId: nextID		
-				};
-			
-			});
+				this.setState(prevState =>
+					{
+						return {
+							listOfWorkers: listOfRows,
+							nextId: nextID		
+						};
+					
+					});
+			})
 	};
 
 	getTitlesFacilitiesAsList = () => {
