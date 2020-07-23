@@ -46,6 +46,12 @@
             ],
             "version": "==1.0.4"
         },
+        "django-cors-headers": {
+            "hashes": [
+                "sha256:5240062ef0b16668ce8a5f43324c388d65f5439e1a30e22c38684d5ddaff0d15",
+            ],
+            "version": "==3.4.0"
+        },
         "django-excel-response2": {
             "hashes": [
                 "sha256:05eade79a5129beefcec4f3f90cd5d7c2540d028f70e788faa39adb50a458e9a",

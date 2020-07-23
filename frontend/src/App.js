@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import logo from './logo.svg';
 import './App.css';
 import WorkOrder from './WorkOrder';
@@ -13,12 +14,13 @@ class App extends React.Component {
 
 	constructor() {
 		super();
+
 		this.state = {
 			nextId: 0,
 			show: false,
 			editShow: false,
 			listOfWorkers: [],
-			staticListOfWorkers: inventoryList,
+			staticListOfWorkers: [],
 			data: {},
 			state: {
 				"OPEN": ["OPEN", "STARTED", "CANCELED"],
@@ -31,6 +33,16 @@ class App extends React.Component {
 		/* Do we sactually need this? */
 		this.updateListOfWorkers = this.updateListOfWorkers.bind(this);
 	};
+
+	componentDidMount() {
+		const url = 'http://127.0.0.1:8000/facility';
+		axios.get(url).then(response => response.data)
+			.then((data) => {
+				this.setState({ staticListOfWorkers: data.data })
+				console.log(this.state.staticListOfWorkers);
+				this.updateListOfWorkers("");
+			})
+	}
 
 	showModal = () => {
 		this.setState({ show: true });
@@ -106,6 +118,7 @@ class App extends React.Component {
 		let currentList = this.state.staticListOfWorkers;
 
 		console.log("Word 11 selected was: " + workSelected);
+		// console.log("TITLE ::::: " + currentList[0]["title"])
 
 		if (!(workSelected instanceof String) || workSelected.length == 0) {
 			workSelected = "";

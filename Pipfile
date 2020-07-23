@@ -4,12 +4,9 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-django-cors-headers = "*"
+coverage = "*"
 
 [packages]
-django = "~=3.0.7"
-django-admin = "*"
-djangorestframework = "*"
 
 [requires]
-python_version = "3.7.7"
+python_version = "3.8"

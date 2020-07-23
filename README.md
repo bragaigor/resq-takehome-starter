@@ -5,6 +5,34 @@ Depending on the take home you have been given you may need only one or both.
 
 The scaffolding has been created docker and docker-compose
 
+## APIs
+
+### GET :: Request work order by facility name:
+http://127.0.0.1:8000/facility/facility_name
+### GET :: Request work order by title:
+http://127.0.0.1:8000/title/name
+
+### GET :: Request all work order items
+http://127.0.0.1:8000/title
+http://127.0.0.1:8000/facility
+
+### POST :: Insert new work order (must set up body properly)
+http://127.0.0.1:8000/newWork
+#### E.g. of body
+```
+{
+    "title": "title here",
+    "description": "description here",
+    "facility": "facility here",
+    "state": "status here"
+}
+```
+
+### POST :: Updating work order by facility name (must set up body accordinly):
+http://127.0.0.1:8000/facility/facility_name
+### POST :: Updating work order by title (must set up body accordinly):
+http://127.0.0.1:8000/title/title
+
 ## Prerequisites
 
 Docker - [Download](https://www.docker.com/get-started)
