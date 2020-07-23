@@ -5,4 +5,4 @@ from .models import WorkOrder
 class WorkOrderSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = WorkOrder
-        fields = ('title', 'description', 'facility', 'state')
+        fields = ('id', 'title', 'description', 'facility', 'state')

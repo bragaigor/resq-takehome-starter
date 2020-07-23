@@ -24,22 +24,30 @@ def findFacility(repsonse, name):
             for i in range(len(workItemFilter)):
                 workOrderSerial = WorkOrderSerializer(workItemFilter[i])
                 workOrderList.append(workOrderSerial.data)
-            workOrderSerial = WorkOrderSerializer(workItemFilter[0])
             print(workOrderSerial.data)
             returnData = {}
             returnData["data"] = workOrderList
             return JsonResponse(returnData) # Is this JSON data???
         else:
             return JsonResponse({'message': 'The work order does not exist'}, status=status.HTTP_404_NOT_FOUND) 
+    # POST request to update by facility name
     elif repsonse.method == 'POST':
+        workItemFilter = WorkOrder.objects.filter(facility__icontains=name)
         print("Inside POST request for findTitle")
-        workOrder_data = JSONParser().parse(repsonse)
-        print(workOrder_data)
-        workOrderSerial = WorkOrderSerializer(data=workOrder_data) 
-        if workOrderSerial.is_valid(): 
-            workOrderSerial.save() 
-            return JsonResponse(workOrderSerial.data, status=status.HTTP_201_CREATED)
-        return JsonResponse(workOrderSerial.errors, status=status.HTTP_400_BAD_REQUEST)
+        if (len(workItemFilter) == 1):
+            thisWorkOrder = workItemFilter[0]
+            workOrder_data = JSONParser().parse(repsonse)
+            print(workOrder_data)
+            workOrderRequest = WorkOrderSerializer(data=workOrder_data) 
+            if workOrderRequest.is_valid():
+                thisWorkOrder.title = workOrderRequest.data["title"]
+                thisWorkOrder.description = workOrderRequest.data["description"]
+                thisWorkOrder.save()
+                workOrderSerial = WorkOrderSerializer(thisWorkOrder)
+                return JsonResponse(workOrderSerial.data, status=status.HTTP_201_CREATED)
+            return JsonResponse(workOrderRequest.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return JsonResponse({'message': 'The work order does not exist or duplicate found'}, status=status.HTTP_404_NOT_FOUND) 
 
 @api_view(['GET', 'POST', 'DELETE'])
 def findTitle(repsonse, name):
@@ -58,16 +66,25 @@ def findTitle(repsonse, name):
             returnData["data"] = workOrderList
             return JsonResponse(returnData) # Is this JSON data???
         else:
-            return JsonResponse({'message': 'The work order does not exist'}, status=status.HTTP_404_NOT_FOUND) 
+            return JsonResponse({'message': 'The work order does not exist'}, status=status.HTTP_404_NOT_FOUND)
+    # POST request to update by title
     elif repsonse.method == 'POST':
+        workItemFilter = WorkOrder.objects.filter(title__icontains=name)
         print("Inside POST request for findTitle")
-        workOrder_data = JSONParser().parse(repsonse)
-        print(workOrder_data)
-        workOrderSerial = WorkOrderSerializer(data=workOrder_data) 
-        if workOrderSerial.is_valid(): 
-            workOrderSerial.save() 
-            return JsonResponse(workOrderSerial.data, status=status.HTTP_201_CREATED)
-        return JsonResponse(workOrderSerial.errors, status=status.HTTP_400_BAD_REQUEST)
+        if (len(workItemFilter) == 1):
+            thisWorkOrder = workItemFilter[0]
+            workOrder_data = JSONParser().parse(repsonse)
+            print(workOrder_data)
+            workOrderRequest = WorkOrderSerializer(data=workOrder_data) 
+            if workOrderRequest.is_valid():
+                thisWorkOrder.title = workOrderRequest.data["title"]
+                thisWorkOrder.description = workOrderRequest.data["description"]
+                thisWorkOrder.save()
+                workOrderSerial = WorkOrderSerializer(thisWorkOrder)
+                return JsonResponse(workOrderSerial.data, status=status.HTTP_201_CREATED)
+            return JsonResponse(workOrderRequest.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return JsonResponse({'message': 'The work order does not exist or duplicate found'}, status=status.HTTP_404_NOT_FOUND) 
 
 @api_view(['POST'])
 def newWork(repsonse):
